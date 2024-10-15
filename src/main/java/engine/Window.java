@@ -18,9 +18,14 @@ public class Window {
     private int width;
     private int height;
     public static boolean VSYNC = true;
+    private boolean resized;
     private long window;
     private final Matrix4f projectionMatrix;
     private float fov = 60.0f, zNear = 0.01f, zFar = 1000.0f;
+
+    public boolean isResized() {
+        return resized;
+    }
 
     public Window(String title, int width, int height){
         this.title = title;
@@ -43,6 +48,7 @@ public class Window {
         GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 2);
         GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE);
         GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GLFW.GLFW_TRUE);
+        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, resized ? GLFW.GLFW_TRUE : GLFW.GLFW_FALSE);
 
         boolean maximized = false;
         if(width == 0 || height == 0){
@@ -91,6 +97,10 @@ public class Window {
         GL46.glEnable(GL46.GL_STENCIL_TEST);
         GL46.glEnable(GL46.GL_CULL_FACE);
         GL46.glCullFace(GL46.GL_BACK);
+    }
+
+    public void setResized(boolean resized) {
+        this.resized = resized;
     }
 
     public void update(){

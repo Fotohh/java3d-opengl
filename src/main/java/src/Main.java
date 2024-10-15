@@ -7,18 +7,20 @@ import engine.utils.Constants;
 public class Main {
 
     private static Window window;
-    private EngineManager engineManager;
+    private static TestGame testGame;
 
     public void main() throws Exception {
         window = new Window(Constants.TITLE, 800, 600);
-
-
-        window.init();
-        engineManager = new EngineManager();
+        testGame = new TestGame();
+        EngineManager engineManager = new EngineManager();
         engineManager.start();
     }
 
     public static Window getWindow() {
         return window;
+    }
+
+    public static TestGame getTestGame() {
+        return testGame;
     }
 }
