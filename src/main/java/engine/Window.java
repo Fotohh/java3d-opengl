@@ -7,10 +7,6 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL46;
-import org.lwjgl.ovr.OVRMatrix4f;
-
-import javax.imageio.stream.IIOByteBuffer;
-import java.nio.ByteBuffer;
 
 public class Window {
 
@@ -27,17 +23,17 @@ public class Window {
         return resized;
     }
 
-    public Window(String title, int width, int height){
+    public Window(String title, int width, int height) {
         this.title = title;
         this.width = width;
         this.height = height;
         this.projectionMatrix = new Matrix4f();
     }
 
-    public void init(){
+    public void init() {
         GLFWErrorCallback.createPrint(System.err).set();
 
-        if(!GLFW.glfwInit()){
+        if (!GLFW.glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
 
@@ -51,7 +47,7 @@ public class Window {
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, resized ? GLFW.GLFW_TRUE : GLFW.GLFW_FALSE);
 
         boolean maximized = false;
-        if(width == 0 || height == 0){
+        if (width == 0 || height == 0) {
             maximized = true;
             width = 100;
             height = 100;
@@ -60,7 +56,7 @@ public class Window {
 
         window = GLFW.glfwCreateWindow(width, height, title, 0, 0);
 
-        if(window == 0){
+        if (window == 0) {
             throw new IllegalStateException("Failed to create window");
         }
 
@@ -70,21 +66,21 @@ public class Window {
         });
 
         GLFW.glfwSetKeyCallback(window, (windowHandle, key, scancode, action, mods) -> {
-            if(key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE){
+            if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE) {
                 GLFW.glfwSetWindowShouldClose(window, true);
             }
         });
 
-        if(maximized){
+        if (maximized) {
             GLFW.glfwMaximizeWindow(window);
-        }else{
+        } else {
             GLFWVidMode vidMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
             GLFW.glfwSetWindowPos(window, (vidMode.width() - width) / 2, (vidMode.height() - height) / 2);
         }
 
         GLFW.glfwMakeContextCurrent(window);
 
-        if(VSYNC){
+        if (VSYNC) {
             GLFW.glfwSwapInterval(1);
         }
 
@@ -103,24 +99,24 @@ public class Window {
         this.resized = resized;
     }
 
-    public void update(){
+    public void update() {
         GLFW.glfwSwapBuffers(window);
         GLFW.glfwPollEvents();
     }
 
-    public void cleanup(){
+    public void cleanup() {
         GLFW.glfwDestroyWindow(window);
     }
 
-    public void setClearColor(float r, float g, float b, float a){
+    public void setClearColor(float r, float g, float b, float a) {
         GL46.glClearColor(r, g, b, a);
     }
 
-    public boolean isKeyPressed(int keyCode){
+    public boolean isKeyPressed(int keyCode) {
         return GLFW.glfwGetKey(window, keyCode) == GLFW.GLFW_PRESS;
     }
 
-    public boolean shouldClose(){
+    public boolean shouldClose() {
         return GLFW.glfwWindowShouldClose(window);
     }
 
@@ -144,12 +140,12 @@ public class Window {
         return title;
     }
 
-    public Matrix4f updateProjectionMatrix(){
+    public Matrix4f updateProjectionMatrix() {
         float aspectRatio = (float) width / height;
         return projectionMatrix.setPerspective(fov, aspectRatio, zNear, zFar);
     }
 
-    public Matrix4f updateProjectionMatrix(Matrix4f matrix4f){
+    public Matrix4f updateProjectionMatrix(Matrix4f matrix4f) {
         float aspectRatio = (float) width / height;
         return matrix4f.setPerspective(fov, aspectRatio, zNear, zFar);
     }

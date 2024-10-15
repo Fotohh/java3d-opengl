@@ -5,7 +5,7 @@ public class Model {
     private final int id;
     private final int vertextCount;
 
-    public Model(int id, int vertextCount){
+    public Model(int id, int vertextCount) {
         this.id = id;
         this.vertextCount = vertextCount;
     }

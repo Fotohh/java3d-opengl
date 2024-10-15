@@ -28,7 +28,7 @@ public class EngineManager {
 
     public void start() throws Exception {
         init();
-        if(isRunning) return;
+        if (isRunning) return;
 
         run();
     }
@@ -40,7 +40,7 @@ public class EngineManager {
         long lastTime = System.nanoTime();
         double unprocessedTime = 0;
 
-        while(isRunning){
+        while (isRunning) {
             boolean render = false;
             long startTime = System.nanoTime();
             long passedTime = startTime - lastTime;
@@ -49,15 +49,15 @@ public class EngineManager {
             unprocessedTime += passedTime / (double) NANOSECOND;
             frameCounter += passedTime;
 
-            while(unprocessedTime > deltaTime){
+            while (unprocessedTime > deltaTime) {
                 render = true;
                 unprocessedTime -= deltaTime;
 
-                if(window.shouldClose()) stop();
+                if (window.shouldClose()) stop();
 
                 input();
 
-                if(frameCounter >= NANOSECOND){
+                if (frameCounter >= NANOSECOND) {
                     fps = frames;
                     window.setTitle(Constants.TITLE + " | FPS: " + frames);
                     frames = 0;
@@ -65,7 +65,7 @@ public class EngineManager {
                 }
             }
 
-            if(render){
+            if (render) {
                 update();
                 render();
                 frames++;
@@ -75,7 +75,7 @@ public class EngineManager {
     }
 
     private void stop() {
-        if(!isRunning) return;
+        if (!isRunning) return;
 
         isRunning = false;
     }
@@ -84,16 +84,16 @@ public class EngineManager {
         gameLogic.input();
     }
 
-    private void render(){
+    private void render() {
         gameLogic.render();
         window.update();
     }
 
-    private void update(){
+    private void update() {
         gameLogic.update();
     }
 
-    private void cleanup(){
+    private void cleanup() {
         window.cleanup();
         gameLogic.cleanup();
         errorCallback.free();

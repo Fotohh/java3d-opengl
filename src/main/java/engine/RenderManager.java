@@ -12,11 +12,11 @@ public class RenderManager {
         window = Main.getWindow();
     }
 
-    public void init(){
+    public void init() {
 
     }
 
-    public void render(Model model){
+    public void render(Model model) {
         clear();
         GL46.glBindVertexArray(model.getId());
         GL46.glEnableVertexAttribArray(0);
@@ -26,11 +26,11 @@ public class RenderManager {
 
     }
 
-    public void clear(){
+    public void clear() {
         GL46.glClear(GL46.GL_COLOR_BUFFER_BIT | GL46.GL_DEPTH_BUFFER_BIT);
     }
 
-    public void cleanup(){
+    public void cleanup() {
 
     }
 

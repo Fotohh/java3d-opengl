@@ -15,21 +15,21 @@ public class ObjectLoader {
     private List<Integer> vaos = new ArrayList<>();
     private List<Integer> vbos = new ArrayList<>();
 
-    public Model loadModel(float[] vertices){
+    public Model loadModel(float[] vertices) {
         int vaoID = createVAO();
         storeDataInAttributeList(0, 3, vertices);
         unbind();
         return new Model(vaoID, vertices.length / 3);
     }
 
-    private int createVAO(){
+    private int createVAO() {
         int vao = GL46.glGenVertexArrays();
         vaos.add(vao);
         GL46.glBindVertexArray(vao);
         return vao;
     }
 
-    private void storeDataInAttributeList(int attributeNumber, int vertextCount, float[] data){
+    private void storeDataInAttributeList(int attributeNumber, int vertextCount, float[] data) {
         int vbo = GL46.glGenBuffers();
         vbos.add(vbo);
         GL46.glBindBuffer(GL46.GL_ARRAY_BUFFER, vbo);
@@ -39,16 +39,16 @@ public class ObjectLoader {
         GL46.glBindBuffer(GL46.GL_ARRAY_BUFFER, 0);
     }
 
-    private void unbind(){
+    private void unbind() {
         GL46.glBindVertexArray(0);
     }
 
-    public void cleanup(){
-        for(int vao : vaos){
+    public void cleanup() {
+        for (int vao : vaos) {
             GL46.glDeleteVertexArrays(vao);
         }
 
-        for(int vbo : vbos){
+        for (int vbo : vbos) {
             GL46.glDeleteBuffers(vbo);
         }
     }
