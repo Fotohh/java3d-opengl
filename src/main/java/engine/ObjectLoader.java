@@ -2,9 +2,7 @@ package engine;
 
 import core.entity.Model;
 import engine.utils.Utils;
-import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL46;
-import org.lwjgl.opengl.INTELBlackholeRender;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
