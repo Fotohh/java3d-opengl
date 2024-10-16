@@ -2,16 +2,40 @@ package engine;
 
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL46;
+import org.lwjgl.system.MemoryStack;
+
+import java.nio.FloatBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShaderManager {
 
     private final int programId;
     private int vertexShaderId;
     private int fragmentShaderId;
+    private final Map<String, Integer> uniforms;
 
     public ShaderManager() throws Exception {
         programId = GL46.glCreateProgram();
         if (programId == 0) throw new Exception("Could not create Shader");
+
+        uniforms = new HashMap<>();
+    }
+
+    public void createUniform(String uniformName) throws Exception {
+        int uniformLocation = GL46.glGetUniformLocation(programId, uniformName);
+        if (uniformLocation < 0) throw new Exception("Could not find uniform: " + uniformName);
+        uniforms.put(uniformName, uniformLocation);
+    }
+
+    public void setUniforms(String uniformName, Matrix4f value) {
+        try (var stack = MemoryStack.stackPush()) {
+            GL46.glUniformMatrix4fv(uniforms.get(uniformName), false, value.get(stack.mallocFloat(16)));
+        }
+    }
+
+    public void setUniforms(String uniformName, int value){
+        GL46.glUniform1i(uniforms.get(uniformName), value);
     }
 
     public void createVertexShader(String shaderCode) throws Exception {
@@ -42,6 +66,19 @@ public class ShaderManager {
         GL46.glLinkProgram(programId);
         if (GL46.glGetProgrami(programId, GL46.GL_LINK_STATUS) == 0) {
             throw new Exception("Error linking Shader code: " + GL46.glGetProgramInfoLog(programId, 1024));
+        }
+
+        if (vertexShaderId != 0) {
+            GL46.glDetachShader(programId, vertexShaderId);
+        }
+
+        if (fragmentShaderId != 0) {
+            GL46.glDetachShader(programId, fragmentShaderId);
+        }
+
+        GL46.glValidateProgram(programId);
+        if (GL46.glGetProgrami(programId, GL46.GL_VALIDATE_STATUS) == 0) {
+            System.err.println("Warning validating Shader code: " + GL46.glGetProgramInfoLog(programId, 1024));
         }
     }
 

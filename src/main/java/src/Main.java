@@ -10,7 +10,7 @@ public class Main {
     private static TestGame testGame;
 
     public void main() throws Exception {
-        window = new Window(Constants.TITLE, 800, 600);
+        window = new Window(Constants.TITLE, 1600, 900);
         testGame = new TestGame();
         EngineManager engineManager = new EngineManager();
         engineManager.start();

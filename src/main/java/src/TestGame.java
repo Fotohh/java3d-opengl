@@ -1,10 +1,12 @@
 package src;
 
 import core.entity.Model;
+import core.entity.Texture;
 import engine.ILogic;
 import engine.ObjectLoader;
 import engine.RenderManager;
 import engine.Window;
+import engine.utils.Utils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL46;
 
@@ -29,15 +31,26 @@ public class TestGame implements ILogic {
         renderer.init();
 
         float[] vertices = {
-                -0.5f, 0.5f, 0f,
+                -0.5f,  0.5f, 0f,
                 -0.5f, -0.5f, 0f,
                 0.5f, -0.5f, 0f,
-                0.5f, -0.5f, 0f,
-                0.5f, 0.5f, 0f,
-                -0.5f, 0.5f, 0f
+                0.5f,  0.5f, 0f,
         };
 
-        model = loader.loadModel(vertices);
+        int[] indices = {
+                0, 1, 3,
+                3, 1, 2
+        };
+
+        float[] textureCoordinates = {
+                0, 0,
+                0, 1,
+                1, 1,
+                1, 0,
+        };
+
+        model = loader.loadModel(vertices, textureCoordinates, indices);
+        model.setTexture(new Texture(loader.loadTexture(Utils.getResourceFile("/textures/grassblock.png"))));
 
     }
 
