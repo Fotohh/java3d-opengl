@@ -104,12 +104,5 @@ public class ShaderManager {
         }
     }
 
-    public void setUniform(String name, Matrix4f value) {
-        int location = GL46.glGetUniformLocation(programId, name);
-        if (location != -1) {
-            GL46.glUniformMatrix4fv(location, false, value.float);
-        }
-    }
-
 
 }
